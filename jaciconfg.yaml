@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jaci-app
+data:
+  PMA_HOST: devmysql
+  PMA_ARBITRARY: "1"
+  MYSQL_DATABASE: default_schema
+type: Opaque  
+
+

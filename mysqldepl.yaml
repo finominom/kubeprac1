@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-depl
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: jaci-app
+    spec:
+      containers:
+      - name: feapp
+        image: finominom/myvueclient
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      - name: beapp
+        image: finominom/jaciserver  
+                      
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+      - name: mysqldb
+        image: mysql
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: MYSQL_USER
+            
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: jaci-config
+              key: MYSQL_DATABASE      
+            
+
+        resources:
+          limits:
+            memory: "500Mi"   
+            cpu: "500m"
+        ports:
+        - containerPort: 3306 
+        volumeMounts:
+          - name: mysqlsecvol
+            mountPath: /var/lib/mysql/secret
+          - name: mysqlcfgvol
+            mountPath: /var/lib/mysql/config
+      
+      - name: phpmyadmin
+        image: phpmyadmin
+        env:
+          - name: PMA_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: jaci-config
+                key: PMA_HOST
+          - name: PMA_ARBITRARY
+            valueFrom:
+              configMapKeyRef:
+                name: jaci-config
+                key: PMA_ARBITRARY
+          - name: PMA_PORT      
+            valueFrom:
+              condigMapKeyRef:
+                name: jaci-config
+                key: PMA_PORT        
+              
+        resources:
+          limits:
+            memory: "258Mi" 
+            cpu: "500m"  
+        ports:
+        - containerPort: 80  
+        volumeMounts:
+          - name: pmacfgvol   
+            mountPath: /var/www/phpmyadmin/config  
+          - name: secretvol
+            mountPath: /var/www/phpmyadmin/secret  
+      volumes:
+        - name: secretvol
+          secret:
+            secretName: pmascret
+        - name: pmacfgvol
+          configMap:
+            name: jaci-config     
+        - name: mysqlsecvol
+          secret:
+            scretname: mysecret
+        - name: mysqlcfgvol  
+          configMap:
+            name: jaci-config              
+
+          
