@@ -102,7 +102,7 @@ spec:
             name: jaci-config     
         - name: mysqlsecvol
           secret:
-            scretname: mysecret
+            secretname: mysecret
         - name: mysqlcfgvol  
           configMap:
             name: jaci-config              
