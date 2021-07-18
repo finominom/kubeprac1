@@ -78,7 +78,7 @@ spec:
                 key: PMA_ARBITRARY
           - name: PMA_PORT      
             valueFrom:
-              condigMapKeyRef:
+              configMapKeyRef:
                 name: jaci-config
                 key: PMA_PORT        
               
