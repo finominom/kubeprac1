@@ -96,7 +96,7 @@ spec:
       volumes:
         - name: secretvol
           secret:
-            secretName: pmascret
+            secretName: mysecret
         - name: pmacfgvol
           configMap:
             name: jaci-config     
