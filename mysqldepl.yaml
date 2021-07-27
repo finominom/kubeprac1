@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp-depl
+  labels:
+    app: myapp
 spec:
   replicas: 3
   selector:
@@ -10,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: jaci-app
+        app: myapp
     spec:
       containers:
       - name: feapp
