@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: feapp
-        image: finominom/myvueclient
+        image: finominom/myvueclient:1.0
         resources:
           limits:
             memory: "128Mi"
