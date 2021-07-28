@@ -33,7 +33,7 @@ spec:
         ports:
         - containerPort: 3000
       - name: mysqldb
-        image: mysql
+        image: mysql:8.0.26
         env:
         - name: MYSQL_USER
           valueFrom:
@@ -55,8 +55,8 @@ spec:
 
         resources:
           limits:
-            memory: "500Mi"   
-            cpu: "500m"
+            memory: "1000Mi"   
+            cpu: "1000m"
         ports:
         - containerPort: 3306 
         volumeMounts:
@@ -66,7 +66,7 @@ spec:
             mountPath: /var/lib/mysql/config
       
       - name: phpmyadmin
-        image: phpmyadmin
+        image: phpmyadmin:latest
         env:
           - name: PMA_HOST
             valueFrom:
@@ -86,8 +86,8 @@ spec:
               
         resources:
           limits:
-            memory: "258Mi" 
-            cpu: "500m"  
+            memory: "1008Mi" 
+            cpu: "1000m"  
         ports:
         - containerPort: 80  
         volumeMounts:
