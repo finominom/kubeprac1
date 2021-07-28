@@ -17,23 +17,26 @@ spec:
       containers:
       - name: feapp
         image: finominom/myvueclient:1.0
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "128Mi"
+            memory: "500Mi"
             cpu: "500m"
         ports:
         - containerPort: 8080
       - name: beapp
-        image: finominom/jaciserver  
+        image: finominom/jaciserver
+        imagePullPolicy: IfNotPresent
                       
         resources:
           limits:
-            memory: "128Mi"
+            memory: "500Mi"
             cpu: "500m"
         ports:
         - containerPort: 3000
       - name: mysqldb
         image: mysql:8.0.26
+        imagePullPolicy: IfNotPresent
         env:
         - name: MYSQL_USER
           valueFrom:
