@@ -69,6 +69,7 @@ spec:
             mountPath: /var/lib/mysql/secret
           - name: mysqlcfgvol
             mountPath: /var/lib/mysql/config
+        volume:    
       
       - name: phpmyadmin
         image: phpmyadmin:latest
