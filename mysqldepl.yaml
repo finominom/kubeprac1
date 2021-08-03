@@ -72,7 +72,7 @@ spec:
         volume: 
           - name: mysqlpesvol
             persistentVolumeClaim:
-              claimName: mypv
+              claimName: mypvc
       
       - name: phpmyadmin
         image: phpmyadmin:latest
