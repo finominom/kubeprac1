@@ -65,11 +65,14 @@ spec:
             containerPort: 3306 
             protocol: TCP
         volumeMounts:
-          - name: mysqlsecvol
+          - name: mysqlpesvol
             mountPath: /var/lib/mysql/secret
-          - name: mysqlcfgvol
+          - name: mysqlpesvol
             mountPath: /var/lib/mysql/config
-        volume:    
+        volume: 
+          - name: mysqlpesvol
+            persistentVolumeClaim:
+              claimName: mypv
       
       - name: phpmyadmin
         image: phpmyadmin:latest
