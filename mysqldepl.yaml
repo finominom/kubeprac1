@@ -61,19 +61,16 @@ spec:
             memory: "1000Mi"   
             cpu: "1000m"
         ports:
-          - name: mysqldb
+          - name: mysqlport
             containerPort: 3306 
             protocol: TCP
         volumeMounts:
-          - name: mysqlpesvol
+          - name: mysqlvolsecret
             mountPath: /var/lib/mysql/secret
-          - name: mysqlpesvol
+          - name: mysqlconfig
             mountPath: /var/lib/mysql/config
-        volume: 
           - name: mysqlpesvol
-            persistentVolumeClaim:
-              claimName: mypvc
-      
+            mountPath: /var/lib/msql  
       - name: phpmyadmin
         image: phpmyadmin:latest
         env:
@@ -111,11 +108,15 @@ spec:
         - name: pmacfgvol
           configMap:
             name: jaci-config     
-        - name: mysqlsecvol
+        - name: mysqlvolsecret
           secret:
             secretName: mysecret
-        - name: mysqlcfgvol  
+        - name: mysqlconfig
           configMap:
-            name: jaci-config              
+            name: jaci-config
+        - name: mysqlpesvol
+          persistentVolumeClaim:
+            claimName: mypvc 
+                            
 
           
