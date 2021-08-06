@@ -49,13 +49,6 @@ spec:
             secretKeyRef:
               name: mysecret
               key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            configMapKeyRef:
-              name: jaci-config
-              key: MYSQL_DATABASE      
-            
-
         resources:
           limits:
             memory: "1000Mi"   
