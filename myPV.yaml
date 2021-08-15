@@ -9,14 +9,14 @@ spec:
     storage: 10Gi
   volumeMode: Filesystem
   accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: slow
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
   mountOptions:
     - hard
     - nfsvers=4.1
   nfs:
-    path: /tmp
+    path: /PersistentVolume/mypv
     server: 172.17.0.2
+    
 
 

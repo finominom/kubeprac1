@@ -38,13 +38,8 @@ spec:
         image: mysql:8.0.26
         imagePullPolicy: IfNotPresent
         env:
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysecret
-              key: MYSQL_USER
-            
-        - name: MYSQL_ROOT_PASSWORD
+                    
+        - name: mysqlpassword
           valueFrom:
             secretKeyRef:
               name: mysecret
