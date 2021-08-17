@@ -6,10 +6,12 @@ spec:
   selector:
     matchLabels:
       app: fedpl
+      run: fedpl
   template:
     metadata:
       labels:
         app: fedpl
+        run: fedpl
     spec:
       containers:
       - name: fedpl
