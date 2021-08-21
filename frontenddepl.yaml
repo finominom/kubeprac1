@@ -6,12 +6,12 @@ spec:
   selector:
     matchLabels:
       app: fedpl
-      run: fedpl
+      
   template:
     metadata:
       labels:
         app: fedpl
-        run: fedpl
+        
     spec:
       containers:
       - name: fedpl
@@ -22,5 +22,13 @@ spec:
             memory: "300Mi"
             cpu: "500m"
         ports:
-        - containerPort: 8080
+        -  containerPort: 8080
+        volumeMounts:
+          -  name: fedvol
+             mountPath: /usr/image
+            
+      volumes:
+        - name: fedvol
+          persistentVolumeClaim:
+            claimName: fepvc     
 
