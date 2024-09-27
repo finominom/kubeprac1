@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp-depl
+  labels:
+    app: myapp
 spec:
   replicas: 3
   selector:
@@ -10,61 +12,55 @@ spec:
   template:
     metadata:
       labels:
-        app: jaci-app
+        app: myapp
     spec:
       containers:
       - name: feapp
-        image: finominom/myvueclient
+        image: finominom/myvueclient:1.0
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "128Mi"
+            memory: "500Mi"
             cpu: "500m"
         ports:
         - containerPort: 8080
       - name: beapp
-        image: finominom/jaciserver  
+        image: finominom/jaciserver
+        imagePullPolicy: IfNotPresent
                       
         resources:
           limits:
-            memory: "128Mi"
+            memory: "500Mi"
             cpu: "500m"
         ports:
         - containerPort: 3000
       - name: mysqldb
-        image: mysql
+        image: mysql:8.0.26
+        imagePullPolicy: IfNotPresent
         env:
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysecret
-              key: MYSQL_USER
-            
-        - name: MYSQL_ROOT_PASSWORD
+                    
+        - name: mysqlpassword
           valueFrom:
             secretKeyRef:
               name: mysecret
               key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            configMapKeyRef:
-              name: jaci-config
-              key: MYSQL_DATABASE      
-            
-
         resources:
           limits:
-            memory: "500Mi"   
-            cpu: "500m"
+            memory: "1000Mi"   
+            cpu: "1000m"
         ports:
-        - containerPort: 3306 
+          - name: mysqlport
+            containerPort: 3306 
+            protocol: TCP
         volumeMounts:
-          - name: mysqlsecvol
+          - name: mysqlvolsecret
             mountPath: /var/lib/mysql/secret
-          - name: mysqlcfgvol
+          - name: mysqlconfig
             mountPath: /var/lib/mysql/config
-      
+          - name: mysqlpesvol
+            mountPath: /var/lib/msql  
       - name: phpmyadmin
-        image: phpmyadmin
+        image: phpmyadmin:latest
         env:
           - name: PMA_HOST
             valueFrom:
@@ -84,8 +80,8 @@ spec:
               
         resources:
           limits:
-            memory: "258Mi" 
-            cpu: "500m"  
+            memory: "1008Mi" 
+            cpu: "1000m"  
         ports:
         - containerPort: 80  
         volumeMounts:
@@ -100,11 +96,15 @@ spec:
         - name: pmacfgvol
           configMap:
             name: jaci-config     
-        - name: mysqlsecvol
+        - name: mysqlvolsecret
           secret:
             secretName: mysecret
-        - name: mysqlcfgvol  
+        - name: mysqlconfig
           configMap:
-            name: jaci-config              
+            name: jaci-config
+        - name: mysqlpesvol
+          persistentVolumeClaim:
+            claimName: mypvc 
+                            
 
           

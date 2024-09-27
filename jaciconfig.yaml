@@ -5,7 +5,6 @@ metadata:
 data:
   PMA_HOST: devmysql
   PMA_ARBITRARY: "1"
-  MYSQL_DATABASE: default_schema
   PMA_PORT: "3306"
 
 

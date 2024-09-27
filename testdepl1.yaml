@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deploy
+  labels:
+    name: mariadb-deploy
+    app: myapp
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mariadb-pod
+      app: myapp
+  template:
+    metadata:
+      name: mariadb-pod
+      labels:
+        name: mariadb-pod
+        app: myapp
+        
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          imagePullPolicy: Never
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key:  MYSQL_ROOT_PASSWORD
+          resources:
+             limits:
+              memory: "600Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 3306    
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mpvs
+      volumes:
+        - name: mpvs
+          persistentVolumeClaim: 
+            claimName: mypvc     
+              
